@@ -2,6 +2,8 @@
 const HOSTED_URLS = {
   model:
       'model_js/model.json',
+  model2:
+      'model_js/model2.json',
   metadata:
       'model_js/metadata.json'
 };
@@ -80,7 +82,7 @@ async function loadHostedPretrainedModel(url) {
   try {
     const model = await tf.loadLayersModel(url);
     status('Done loading pretrained model.');
-    disableLoadModelButtons();
+    // disableLoadModelButtons();
     return model;
   } catch (err) {
     console.error(err);
@@ -103,9 +105,12 @@ async function loadHostedMetadata(url) {
 
 class Classifier {
 
-  async init(urls) {
+  async init(urls, type) {
     this.urls = urls;
-    this.model = await loadHostedPretrainedModel(urls.model);
+    if(type == 1)
+      this.model = await loadHostedPretrainedModel(urls.model);
+    else
+      this.model = await loadHostedPretrainedModel(urls.model2);
     await this.loadMetadata();
     return this;
   }
@@ -150,10 +155,21 @@ async function setup() {
     status('Model available: ' + HOSTED_URLS.model);
     const button = document.getElementById('load-model');
     button.addEventListener('click', async () => {
-      const predictor = await new Classifier().init(HOSTED_URLS);
+      const predictor = await new Classifier().init(HOSTED_URLS, 1);
       prepUI(x => predictor.predict(x));
     });
     button.style.display = 'inline-block';
+    
+  }
+  if (await urlExists(HOSTED_URLS.model2)) {
+    status('Model available: ' + HOSTED_URLS.model2);
+    const button = document.getElementById('load-model2');
+    button.addEventListener('click', async () => {
+      const predictor = await new Classifier().init(HOSTED_URLS, 2);
+      prepUI(x => predictor.predict(x));
+    });
+    button.style.display = 'inline-block';
+    
   }
 
   status('Standing by.');
