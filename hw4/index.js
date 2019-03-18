@@ -105,9 +105,13 @@ async function loadHostedMetadata(url) {
 
 class Classifier {
 
-  async init(urls) {
+  async init(urls, type) {
     this.urls = urls;
-    this.model = await loadHostedPretrainedModel(urls.model);
+    if (type == 1){
+      this.model = await loadHostedPretrainedModel(urls.model);
+    }else{
+      this.model = await loadHostedPretrainedModel(urls.model2);
+    }
     await this.loadMetadata();
     return this;
   }
@@ -152,7 +156,7 @@ async function setup() {
     status('Model available: ' + HOSTED_URLS.model);
     const button = document.getElementById('load-model');
     button.addEventListener('click', async () => {
-      const predictor = await new Classifier().init(HOSTED_URLS);
+      const predictor = await new Classifier().init(HOSTED_URLS, 1);
       prepUI(x => predictor.predict(x));
     });
     button.style.display = 'inline-block';
@@ -162,7 +166,7 @@ async function setup() {
     status('Model available: ' + HOSTED_URLS.model2);
     const button = document.getElementById('load-model2');
     button.addEventListener('click', async () => {
-      const predictor = await new Classifier().init(HOSTED_URLS);
+      const predictor = await new Classifier().init(HOSTED_URLS, 2);
       prepUI(x => predictor.predict(x));
     });
     button.style.display = 'inline-block';
