@@ -14,7 +14,7 @@ const examples = {
   'example3':
       'Scepticism was as much the result of knowledge, as knowledge is of scepticism.',
   'example4':
-      'haha hah hahahahh hahah hahhah hh ahhahahh.'
+      'I felt myself peculiarly fortunate in being able to secure his services.'
 };
 
 function status(statusText) {
