@@ -42,8 +42,9 @@ function setPredictFunction(predict) {
   textField.addEventListener('input', () => doPredict(predict));
 }
 
-function disableLoadModelButtons(type) {
-  document.getElementById('load-model'+type.toString()).style.display = 'none';
+function disableLoadModelButtons() {
+  document.getElementById('load-model1').style.display = 'none';
+  document.getElementById('load-model2').style.display = 'none';
 }
 
 function doPredict(predict) {
@@ -77,12 +78,12 @@ async function urlExists(url) {
   }
 }
 
-async function loadHostedPretrainedModel(url, type) {
+async function loadHostedPretrainedModel(url) {
   status('Loading pretrained model from ' + url);
   try {
     const model = await tf.loadLayersModel(url);
     status('Done loading pretrained model.');
-    disableLoadModelButtons(type);
+    disableLoadModelButtons();
     return model;
   } catch (err) {
     console.error(err);
@@ -108,9 +109,9 @@ class Classifier {
   async init(urls, type) {
     this.urls = urls;
     if (type == 1){
-      this.model = await loadHostedPretrainedModel(urls.model, type);
+      this.model = await loadHostedPretrainedModel(urls.model);
     }else{
-      this.model = await loadHostedPretrainedModel(urls.model2, type);
+      this.model = await loadHostedPretrainedModel(urls.model2);
     }
     await this.loadMetadata();
     return this;
