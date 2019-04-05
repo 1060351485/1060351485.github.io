@@ -167,8 +167,8 @@ async function setup() {
     status('Model available: ' + HOSTED_URLS.model2);
     const button = document.getElementById('load-model2');
     button.addEventListener('click', async () => {
-      const predictor = await new Classifier().init(HOSTED_URLS, 2);
-      prepUI(x => predictor.predict(x));
+      const predictor2 = await new Classifier().init(HOSTED_URLS, 2);
+      prepUI(x => predictor2.predict(x));
     });
     button.style.display = 'inline-block';
     
