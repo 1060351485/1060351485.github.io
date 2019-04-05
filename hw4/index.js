@@ -124,6 +124,7 @@ class Classifier {
     this.maxLen = metadata['max_len'];
     console.log('maxLen = ' + this.maxLen);
     this.wordIndex = metadata['word_index']
+    console.log('fin load metadata');
   }
 
   predict(text) {
@@ -143,7 +144,7 @@ class Classifier {
     status('Running inference');
     const beginMs = performance.now();
     const predictOut = this.model.predict(input);
-    //console.log(predictOut.dataSync());
+    console.log(predictOut.dataSync());
     const score = predictOut.dataSync();//[0];
     predictOut.dispose();
     const endMs = performance.now();
